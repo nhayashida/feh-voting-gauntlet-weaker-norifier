@@ -1,0 +1,12 @@
+.dockerignore
+.git
+.gitignore
+.prettierignore
+.prettierrc
+.vscode
+Dockerfile
+README.md
+package-lock.json
+src
+tsconfig.json
+tslint.json
