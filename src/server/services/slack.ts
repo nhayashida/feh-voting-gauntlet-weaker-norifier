@@ -1,11 +1,6 @@
 import { WebClient, WebAPICallResult, MessageAttachment } from '@slack/client';
 import { pick } from 'lodash';
 
-export type Channel = {
-  id: string;
-  name: string;
-};
-
 const client = new WebClient(process.env.SLACK_ACCESS_TOKEN);
 
 /**
@@ -31,10 +26,10 @@ export const postMessage = async (
 /**
  * List all public channels
  */
-export const listChannels = async (): Promise<Channel[]> => {
+export const listChannels = async (): Promise<Slack.Channel[]> => {
   const results = await client.conversations.list({ exclude_archived: true });
 
-  const channels: Channel[] = [];
+  const channels: Slack.Channel[] = [];
   if (results.ok) {
     channels.push(...(results as any).channels.map(channel => pick(channel, ['id', 'name'])));
   }

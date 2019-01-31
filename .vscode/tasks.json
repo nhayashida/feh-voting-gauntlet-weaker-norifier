@@ -3,8 +3,8 @@
   "tasks": [
     {
       "type": "npm",
-      "label": "build",
-      "script": "build"
+      "label": "build:dev",
+      "script": "build:dev"
     }
   ]
 }

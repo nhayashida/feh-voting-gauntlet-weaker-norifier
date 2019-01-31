@@ -11,7 +11,7 @@
         "-r", "ts-node/register"
       ],
       "outFiles": ["${workspaceFolder}/**/*.js"],
-      "preLaunchTask": "build",
+      "preLaunchTask": "build:dev",
       "console": "integratedTerminal",
     }
   ]

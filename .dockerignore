@@ -10,3 +10,6 @@ package-lock.json
 src
 tsconfig.json
 tslint.json
+webpack.common.ts
+webpack.dev.ts
+webpack.prod.ts

@@ -1,4 +1,5 @@
 import { JSDOM } from 'jsdom';
+import { flatten } from 'lodash';
 import rp from 'request-promise';
 
 const VOTING_GAUNTLET_URL = 'https://support.fire-emblem-heroes.com/voting_gauntlet/current';
@@ -36,4 +37,9 @@ export const listBattles = async () => {
       };
     }),
   );
+};
+
+export const listHeroes = async () => {
+  const battles = await listBattles();
+  return flatten(battles.map(battle => [battle[0].name, battle[1].name]));
 };
