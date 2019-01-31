@@ -5,6 +5,7 @@ import {
   FormControl,
   IconButton,
   InputLabel,
+  LinearProgress,
   MuiThemeProvider,
   NativeSelect,
   Snackbar,
@@ -14,6 +15,7 @@ import {
 } from '@material-ui/core';
 import { Close as CloseIcon, Error as ErrorIcon } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
+import classnames from 'classnames';
 import React, { Component, SyntheticEvent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
@@ -46,12 +48,20 @@ const styles = (theme: Theme) =>
         marginRight: theme.spacing.unit,
       },
     },
+    progress: {
+      marginTop: theme.spacing.unit,
+      display: 'none',
+      '&.loading': {
+        display: 'block',
+      },
+    },
   });
 
 interface Props extends WithStyles<typeof styles> {
   heroes: string[];
   channels: Slack.Channel[];
   settings: UserSettings;
+  loading: boolean;
   errorMessage: string;
   initialize: () => void;
   updateSettings: (props: { [key: string]: string }) => void;
@@ -62,6 +72,7 @@ const mapStateToProps = (state: Props) => ({
   heroes: state.heroes,
   channels: state.channels,
   settings: state.settings,
+  loading: state.loading,
   errorMessage: state.errorMessage,
 });
 
@@ -94,7 +105,7 @@ class App extends Component<Props> {
   };
 
   generateSelects(): JSX.Element[] {
-    const { classes, heroes, channels, settings } = this.props;
+    const { classes, heroes, channels, settings, loading } = this.props;
 
     const selectProps = [
       {
@@ -129,7 +140,12 @@ class App extends Component<Props> {
         <InputLabel htmlFor={props.id} shrink={true}>
           {props.label}
         </InputLabel>
-        <NativeSelect name={props.id} value={props.value} onChange={this.onSelectChange}>
+        <NativeSelect
+          name={props.id}
+          value={props.value}
+          onChange={this.onSelectChange}
+          disabled={loading}
+        >
           {props.options}
         </NativeSelect>
       </FormControl>
@@ -163,7 +179,11 @@ class App extends Component<Props> {
   }
 
   render(): JSX.Element {
-    const { classes } = this.props;
+    const { classes, loading } = this.props;
+
+    const progressClasses = classnames(classes.progress, {
+      loading,
+    });
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -171,6 +191,7 @@ class App extends Component<Props> {
         <div className={classes.root}>
           {this.generateSelects()}
           {this.generateNotification()}
+          <LinearProgress className={progressClasses} />
         </div>
       </MuiThemeProvider>
     );

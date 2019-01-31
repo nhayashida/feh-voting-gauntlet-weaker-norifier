@@ -7,6 +7,7 @@ const initialState = {
   heroes: [],
   channels: [] as Slack.Channel[],
   settings: {} as UserSettings,
+  loading: true,
   errorMessage: '',
 };
 Object.freeze(initialState);
@@ -47,6 +48,17 @@ const settings = (
   return settings;
 };
 
+const loading = (loading: boolean = initialState.loading, action: { type: number }): boolean => {
+  switch (action.type) {
+    case actionTypes.START_LOADING:
+      return true;
+    case actionTypes.STOP_LOADING:
+      return false;
+  }
+
+  return loading;
+};
+
 const errorMessage = (
   errorMessage: string = initialState.errorMessage,
   action: { type: number; errorMessage: string },
@@ -66,6 +78,7 @@ export const createStore = () => {
     heroes,
     channels,
     settings,
+    loading,
     errorMessage,
   });
   return reduxCreateStore(reducers, composeWithDevTools(applyMiddleware(thunk)));

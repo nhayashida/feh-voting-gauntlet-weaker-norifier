@@ -29,14 +29,27 @@ const actions = {
 
   initialize: () => async (dispatch: Dispatch) => {
     try {
+      dispatch(actions.startLoading());
+
       const { heroes, channels, settings } = await profile.load();
       dispatch(actions.setHeroes(heroes));
       dispatch(actions.setChannels(channels));
       dispatch(actions.setSettings(settings));
+
+      dispatch(actions.stopLoading());
     } catch (err) {
       dispatch(actions.showErrorMessage(err.message));
+      dispatch(actions.stopLoading());
     }
   },
+
+  startLoading: () => ({
+    type: actionTypes.START_LOADING,
+  }),
+
+  stopLoading: () => ({
+    type: actionTypes.STOP_LOADING,
+  }),
 
   showErrorMessage: (errorMessage: string) => ({
     errorMessage,
