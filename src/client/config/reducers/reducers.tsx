@@ -4,13 +4,38 @@ import thunk from 'redux-thunk';
 import actionTypes from '../actions/actionTypes';
 
 const initialState = {
+  errorMessage: '',
+  loading: true,
   heroes: [],
   channels: [] as Slack.Channel[],
   settings: {} as UserSettings,
-  loading: true,
-  errorMessage: '',
 };
 Object.freeze(initialState);
+
+const errorMessage = (
+  errorMessage: string = initialState.errorMessage,
+  action: { type: number; errorMessage: string },
+): string => {
+  switch (action.type) {
+    case actionTypes.SHOW_ERROR_MESSAGE:
+      return action.errorMessage;
+    case actionTypes.HIDE_ERROR_MESSAGE:
+      return '';
+  }
+
+  return errorMessage;
+};
+
+const loading = (loading: boolean = initialState.loading, action: { type: number }): boolean => {
+  switch (action.type) {
+    case actionTypes.START_LOADING:
+      return true;
+    case actionTypes.END_LOADING:
+      return false;
+  }
+
+  return loading;
+};
 
 const heroes = (
   heroes: string[] = initialState.heroes,
@@ -48,38 +73,13 @@ const settings = (
   return settings;
 };
 
-const loading = (loading: boolean = initialState.loading, action: { type: number }): boolean => {
-  switch (action.type) {
-    case actionTypes.START_LOADING:
-      return true;
-    case actionTypes.STOP_LOADING:
-      return false;
-  }
-
-  return loading;
-};
-
-const errorMessage = (
-  errorMessage: string = initialState.errorMessage,
-  action: { type: number; errorMessage: string },
-): string => {
-  switch (action.type) {
-    case actionTypes.SHOW_ERROR_MESSAGE:
-      return action.errorMessage;
-    case actionTypes.HIDE_ERROR_MESSAGE:
-      return '';
-  }
-
-  return errorMessage;
-};
-
 export const createStore = () => {
   const reducers = combineReducers({
+    errorMessage,
+    loading,
     heroes,
     channels,
     settings,
-    loading,
-    errorMessage,
   });
   return reduxCreateStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
 };

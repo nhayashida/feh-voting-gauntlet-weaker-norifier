@@ -3,6 +3,23 @@ import actionTypes from './actionTypes';
 import profile from '../services/profile';
 
 const actions = {
+  showErrorMessage: (errorMessage: string) => ({
+    errorMessage,
+    type: actionTypes.SHOW_ERROR_MESSAGE,
+  }),
+
+  hideErrorMessage: () => ({
+    type: actionTypes.HIDE_ERROR_MESSAGE,
+  }),
+
+  startLoading: () => ({
+    type: actionTypes.START_LOADING,
+  }),
+
+  endLoading: () => ({
+    type: actionTypes.END_LOADING,
+  }),
+
   setHeroes: (heroes: string[]) => ({
     heroes,
     type: actionTypes.SET_HEROES,
@@ -35,30 +52,12 @@ const actions = {
       dispatch(actions.setHeroes(heroes));
       dispatch(actions.setChannels(channels));
       dispatch(actions.setSettings(settings));
-
-      dispatch(actions.stopLoading());
     } catch (err) {
       dispatch(actions.showErrorMessage(err.message));
-      dispatch(actions.stopLoading());
+    } finally {
+      dispatch(actions.endLoading());
     }
   },
-
-  startLoading: () => ({
-    type: actionTypes.START_LOADING,
-  }),
-
-  stopLoading: () => ({
-    type: actionTypes.STOP_LOADING,
-  }),
-
-  showErrorMessage: (errorMessage: string) => ({
-    errorMessage,
-    type: actionTypes.SHOW_ERROR_MESSAGE,
-  }),
-
-  hideErrorMessage: () => ({
-    type: actionTypes.HIDE_ERROR_MESSAGE,
-  }),
 };
 
 export default actions;

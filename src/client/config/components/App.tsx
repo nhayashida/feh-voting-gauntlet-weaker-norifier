@@ -29,7 +29,7 @@ const theme = createMuiTheme({
 
 const styles = (theme: Theme) =>
   createStyles({
-    root: {
+    content: {
       display: 'flex',
       flexDirection: 'column',
       padding: `${theme.spacing.unit * 4}px ${theme.spacing.unit * 2}px`,
@@ -58,22 +58,22 @@ const styles = (theme: Theme) =>
   });
 
 interface Props extends WithStyles<typeof styles> {
+  errorMessage: string;
+  loading: boolean;
   heroes: string[];
   channels: Slack.Channel[];
   settings: UserSettings;
-  loading: boolean;
-  errorMessage: string;
   initialize: () => void;
   updateSettings: (props: { [key: string]: string }) => void;
   hideErrorMessage: () => void;
 }
 
 const mapStateToProps = (state: Props) => ({
+  errorMessage: state.errorMessage,
+  loading: state.loading,
   heroes: state.heroes,
   channels: state.channels,
   settings: state.settings,
-  loading: state.loading,
-  errorMessage: state.errorMessage,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actions, dispatch);
@@ -152,7 +152,7 @@ class App extends Component<Props> {
     ));
   }
 
-  generateNotification() {
+  generateNotification(): JSX.Element {
     const { classes, errorMessage, hideErrorMessage } = this.props;
 
     const message = (
@@ -166,7 +166,6 @@ class App extends Component<Props> {
         <CloseIcon />
       </IconButton>
     );
-
     return (
       <Snackbar open={!!errorMessage} autoHideDuration={1000 * 10} onClose={hideErrorMessage}>
         <SnackbarContent
@@ -188,7 +187,7 @@ class App extends Component<Props> {
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <div className={classes.root}>
+        <div className={classes.content}>
           {this.generateSelects()}
           {this.generateNotification()}
           <LinearProgress className={progressClasses} />
