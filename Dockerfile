@@ -1,4 +1,4 @@
-FROM node:10.15.1-alpine
+FROM node:10.15.2-alpine
 
 ENV SERVICE_USER=app
 ENV APP_DIR=/home/$SERVICE_USER/feh-voting-gauntlet-weaker-norifier

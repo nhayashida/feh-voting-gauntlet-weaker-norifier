@@ -86,14 +86,6 @@ const EmptyOption = (
 );
 
 class App extends Component<Props> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      settingsOpen: false,
-    };
-  }
-
   componentDidMount() {
     this.props.initialize();
   }
