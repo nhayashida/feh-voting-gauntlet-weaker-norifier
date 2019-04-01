@@ -6,7 +6,7 @@ import { postMessage, listChannels } from '../services/slack';
 import logger from '../utils/logger';
 
 const checkSituation = async () => {
-  const job = new CronJob(process.env.JOB_SCHEDULE || '0 5,35 * * * *', async () => {
+  const job = new CronJob(process.env.JOB_SCHEDULE || '0 5 * * * *', async () => {
     const settings = await profile.getSettings();
     if (!(await listChannels()).some(channel => channel.id === settings.channel)) {
       logger.error(`"${settings.channel}" channel is not found`);
