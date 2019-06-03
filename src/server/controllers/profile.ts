@@ -1,5 +1,7 @@
-import { Request, Response } from 'express';
-import profile from '../services/profile';
+import { NextFunction, Request, Response } from 'express';
+import { getSettings } from '../services/settings';
+import { listHeroes } from '../services/feh';
+import { listChannels } from '../services/slack';
 import logger from '../utils/logger';
 
 /**
@@ -7,31 +9,23 @@ import logger from '../utils/logger';
  *
  * @param req
  * @param res
+ * @param next
  */
-const load = async (req: Request, res: Response) => {
+const load = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.send(await profile.load());
+    try {
+      const settings = getSettings();
+      const heroes = await listHeroes();
+      const channels = await listChannels();
+
+      res.send({ settings, heroes, channels });
+    } catch (err) {
+      throw err;
+    }
   } catch (err) {
     logger.error(err);
-    res.status(500).send({ message: err.message });
+    next(err);
   }
 };
 
-/**
-s * Update user settings
- *
- * @param req
- * @param res
- */
-const update = async (req: Request, res: Response) => {
-  logger.debug(req.body);
-
-  try {
-    res.send(await profile.updateSettings(req.body));
-  } catch (err) {
-    logger.error(err);
-    res.status(500).send({ message: err.message });
-  }
-};
-
-export default { load, update };
+export default { load };

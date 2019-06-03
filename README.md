@@ -18,8 +18,6 @@ npm run start
 
 2.  Build a Docker image
 ```
-npm install
-npm run build
 docker build -f Dockerfile -t feh-voting-gauntlet-weaker-norifier:latest .
 ```
 

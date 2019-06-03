@@ -1,40 +1,18 @@
-/**
- * Retrieve application and user profiles
- */
-const load = async (): Promise<Profile> => {
-  try {
-    const res = await fetch('/profile');
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.message);
-    }
-    return data;
-  } catch (err) {
-    throw err;
-  }
-};
+import { Settings } from '../reducers/app/types';
+import { Hero } from '../reducers/feh/types';
+import { Channel } from '../reducers/slack/types';
 
 /**
- * Update user settings
- *
- * @param props
+ * Retrieve application and user settings
  */
-export const update = async (props: { [key: string]: string }): Promise<UserSettings> => {
-  try {
-    const res = await fetch('/profile', {
-      headers: { 'Content-Type': 'application/json' },
-      method: 'POST',
-      body: JSON.stringify(props),
-    });
+const load = async (): Promise<{ settings: Settings; heroes: Hero[]; channels: Channel[] }> => {
+  const res = await fetch('/profile');
 
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.message);
-    }
-    return data;
-  } catch (err) {
-    throw err;
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error.message);
   }
+  return data;
 };
 
-export default { load, update };
+export default { load };

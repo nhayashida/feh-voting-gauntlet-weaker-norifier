@@ -4,6 +4,7 @@ import path from 'path';
 import { Configuration } from 'webpack';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
+import { GenerateSW } from 'workbox-webpack-plugin';
 
 dotenv.config();
 
@@ -13,8 +14,7 @@ const common: Configuration = {
   },
   output: {
     filename: '[name].[chunkhash].js',
-    path: path.join(__dirname, 'dist/config'),
-    publicPath: '/config',
+    path: path.join(__dirname, 'dist'),
   },
   optimization: {
     splitChunks: {
@@ -61,6 +61,20 @@ const common: Configuration = {
       meta: {
         viewport: 'minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no',
       },
+    }),
+    new GenerateSW({
+      clientsClaim: true,
+      skipWaiting: true,
+      runtimeCaching: [
+        {
+          urlPattern: /^https:\/\/fonts.googleapis.com/,
+          handler: 'StaleWhileRevalidate',
+        },
+        {
+          urlPattern: /\.(woff2|png|ico)$/,
+          handler: 'StaleWhileRevalidate',
+        },
+      ],
     }),
   ],
 };

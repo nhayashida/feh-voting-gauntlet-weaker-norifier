@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import { flatten } from 'lodash';
+import flatten from 'lodash/flatten';
 import rp from 'request-promise';
 
 const VOTING_GAUNTLET_URL = 'https://support.fire-emblem-heroes.com/voting_gauntlet/current';
@@ -13,6 +13,7 @@ export const listBattles = async () => {
     simple: false,
     resolveWithFullResponse: true,
   });
+
   const dom = await JSDOM.fromURL(res.headers['location']);
 
   const battleNodes = dom.window.document
@@ -41,5 +42,5 @@ export const listBattles = async () => {
 
 export const listHeroes = async () => {
   const battles = await listBattles();
-  return flatten(battles.map(battle => [battle[0].name, battle[1].name]));
+  return flatten(battles.map(battle => [{ name: battle[0].name }, { name: battle[1].name }]));
 };
