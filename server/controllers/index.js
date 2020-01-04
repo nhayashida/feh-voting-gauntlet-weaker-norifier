@@ -2,7 +2,6 @@ import bparser from 'body-parser';
 import express from 'express';
 import { getSettings, updateSettings } from '../services/settings';
 import { listHeroes } from '../services/feh';
-import { listChannels } from '../services/slack';
 import logger from '../utils/logger';
 
 const app = express();
@@ -11,9 +10,8 @@ app.get('/profile', async (req, res, next) => {
   try {
     const settings = getSettings();
     const heroes = await listHeroes();
-    const channels = await listChannels();
 
-    res.json({ settings, heroes, channels });
+    res.json({ settings, heroes });
   } catch (err) {
     logger.error(err);
     next(err);

@@ -3,14 +3,12 @@ import axios from 'axios';
 export const state = () => ({
   settings: {},
   heroes: [],
-  channels: [],
 });
 
 export const mutations = {
-  UPDATE_PROFILE(state, { settings, heroes, channels }) {
+  UPDATE_PROFILE(state, { settings, heroes }) {
     state.settings = settings;
     state.heroes = heroes;
-    state.channels = channels;
   },
   UPDATE_SETTINGS(state, payload) {
     state.settings = payload;

@@ -1,4 +1,4 @@
-# feh-voting-gauntlet-norifier
+# feh-norifier
 
 ## Build Setup
 
