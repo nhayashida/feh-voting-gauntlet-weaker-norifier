@@ -62,6 +62,12 @@ const config = {
   server: {},
 
   serverMiddleware: ['~/server/controllers/'],
+
+  env: {
+    LIFF_ID: process.env.LIFF_ID,
+    CHANNEL_ACCESS_TOKEN: process.env.CHANNEL_ACCESS_TOKEN,
+    CHANNEL_SECRET: process.env.CHANNEL_SECRET,
+  },
 };
 
 if (process.env.SSL_KEY && process.env.SSL_CERT) {

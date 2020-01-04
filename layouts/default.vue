@@ -5,11 +5,18 @@
 </template>
 
 <script>
-import { createComponent, onBeforeMount, ref } from '@vue/composition-api';
+import { createComponent, onBeforeMount, computed, ref, watch } from '@vue/composition-api';
 
 export default createComponent({
-  setup() {
+  setup(props, { root }) {
+    const error = computed(() => root.$store.state.profile.error);
     const isInitialized = ref(false);
+
+    watch(error, (to) => {
+      if (to) {
+        root.$buefy.toast.open({ message: to, type: 'is-danger' });
+      }
+    });
 
     onBeforeMount(async () => {
       try {
@@ -18,6 +25,7 @@ export default createComponent({
         });
         isInitialized.value = true;
       } catch (err) {
+        root.$store.dispatch('profile/setError', err.message);
         console.error(err);
       }
     });
