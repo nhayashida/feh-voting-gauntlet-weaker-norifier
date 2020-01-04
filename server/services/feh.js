@@ -27,7 +27,7 @@ const listBattles = async () => {
           node,
           null,
           dom.window.XPathResult.STRING_TYPE,
-          null
+          null,
         ).stringValue;
 
       return {
@@ -35,7 +35,7 @@ const listBattles = async () => {
         score: parseInt(text(2).replace(/,/g, ''), 10),
         isWeaker: node.className.endsWith('behind'),
       };
-    })
+    }),
   );
 };
 
@@ -44,4 +44,4 @@ const listHeroes = async () => {
   return flatten(battles.map((battle) => [{ name: battle[0].name }, { name: battle[1].name }]));
 };
 
-module.exports = { listBattles, listHeroes };
+module.exports = { VOTING_GAUNTLET_URL, listBattles, listHeroes };

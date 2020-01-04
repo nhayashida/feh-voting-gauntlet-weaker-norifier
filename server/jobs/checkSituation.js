@@ -1,15 +1,15 @@
 const { CronJob } = require('cron');
-const { listBattles } = require('../services/feh');
+const { VOTING_GAUNTLET_URL, listBattles } = require('../services/feh');
+const { pushMessage } = require('../services/line');
 const { getSettings } = require('../services/settings');
-const { postMessage, listChannels } = require('../services/slack');
 const logger = require('../utils/logger');
 
 const checkSituation = () => {
   const job = new CronJob(process.env.JOB_SCHEDULE || '0 5 * * * *', async () => {
-    const settings = getSettings();
+    const { userId, hero } = getSettings();
 
-    if (!(await listChannels()).some((channel) => channel.id === settings.channel)) {
-      logger.error(`"${settings.channel}" is not found`);
+    if (!userId) {
+      logger.error('Unauthorized');
       return;
     }
 
@@ -17,16 +17,16 @@ const checkSituation = () => {
     for (const battle of battles) {
       const players = [...battle];
       // Post a message if your hero is a weaker
-      const hero = players.find((player) => player.name === settings.hero);
-      if (hero && hero.isWeaker) {
-        const fields = players.map((player) => ({
-          title: player.name,
-          value: player.score.toString(),
-          short: true,
-        }));
-        const attachments = [{ fields }];
-        const result = await postMessage(settings.channel, '', attachments);
-        logger.debug(result);
+      const found = players.find((player) => player.name === hero);
+      if (found && found.isWeaker) {
+        const messages = [
+          {
+            type: 'text',
+            text: `${hero} is a weaker\n${VOTING_GAUNTLET_URL}`,
+          },
+        ];
+        const results = await pushMessage({ userId, messages });
+        logger.debug(results);
 
         break;
       }
