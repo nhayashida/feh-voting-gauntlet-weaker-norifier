@@ -39,11 +39,7 @@ const config = {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: [
-    '@nuxtjs/eslint-module',
-    ['@nuxtjs/dotenv', { path: `.`, filename: '.env' }],
-    '@nuxtjs/style-resources',
-  ],
+  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/dotenv', '@nuxtjs/style-resources'],
   /*
    ** Nuxt.js modules
    */
