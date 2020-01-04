@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+// eslint-disable-next-line nuxt/no-cjs-in-config
 module.exports = {
   mode: 'spa',
   /*
@@ -29,23 +30,15 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ['@/plugins/composition-api'],
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: [
-    // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/dotenv',
-  ],
+  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/dotenv'],
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    'nuxt-buefy',
-  ],
+  modules: ['@nuxtjs/axios', 'nuxt-buefy'],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

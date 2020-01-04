@@ -10,29 +10,30 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.8.0",
+    "@nuxtjs/axios": "^5.9.2",
     "@nuxtjs/dotenv": "^1.4.1",
     "@slack/client": "^5.0.2",
+    "@vue/composition-api": "^0.3.4",
     "body-parser": "^1.19.0",
     "cron": "^1.7.2",
     "cross-env": "^6.0.3",
     "express": "^4.17.1",
-    "jsdom": "^15.2.0",
+    "jsdom": "^15.2.1",
     "lodash": "^4.17.15",
-    "nuxt": "^2.10.2",
-    "nuxt-buefy": "^0.3.17",
-    "pino": "^5.13.5",
-    "pino-pretty": "^3.2.2"
+    "nuxt": "^2.11.0",
+    "nuxt-buefy": "^0.3.20",
+    "pino": "^5.15.0",
+    "pino-pretty": "^3.5.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4",
-    "@nuxtjs/eslint-config": "^1.1.2",
+    "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-module": "^1.1.0",
     "babel-eslint": "^10.0.3",
-    "eslint": "^6.6.0",
-    "eslint-plugin-nuxt": ">=0.4.3",
-    "eslint-config-prettier": "^6.5.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "prettier": "^1.18.2"
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-nuxt": ">=0.5.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1"
   }
 }

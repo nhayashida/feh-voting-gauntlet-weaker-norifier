@@ -28,26 +28,27 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { computed, createComponent, onMounted } from '@vue/composition-api';
 
-export default {
-  computed: {
-    ...mapGetters({
-      settings: 'profile/settings',
-      heroes: 'profile/heroes',
-      channels: 'profile/channels',
-    }),
-  },
-  mounted() {
-    this.$store.dispatch('profile/fetchProfile');
-  },
-  methods: {
-    onChange(e) {
+export default createComponent({
+  setup(props, { root }) {
+    onMounted(() => {
+      root.$store.dispatch('profile/fetchProfile');
+    });
+
+    const onChange = (e) => {
       const { id, value } = e.target;
-      this.$store.dispatch('profile/setSettings', { [id]: value });
-    },
+      root.$store.dispatch('profile/setSettings', { [id]: value });
+    };
+
+    return {
+      settings: computed(() => root.$store.state.profile.settings),
+      heroes: computed(() => root.$store.state.profile.heroes),
+      channels: computed(() => root.$store.state.profile.channels),
+      onChange,
+    };
   },
-};
+});
 </script>
 
 <style>

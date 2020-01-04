@@ -1,25 +1,19 @@
 import axios from 'axios';
 
 export const state = () => ({
-  profile: {
-    settings: {},
-    heroes: [],
-    channels: [],
-  },
+  settings: {},
+  heroes: [],
+  channels: [],
 });
 
-export const getters = {
-  settings: (state) => state.profile.settings,
-  heroes: (state) => state.profile.heroes,
-  channels: (state) => state.profile.channels,
-};
-
 export const mutations = {
-  UPDATE_PROFILE(state, payload) {
-    state.profile = payload;
+  UPDATE_PROFILE(state, { settings, heroes, channels }) {
+    state.settings = settings;
+    state.heroes = heroes;
+    state.channels = channels;
   },
   UPDATE_SETTINGS(state, payload) {
-    state.profile.settings = payload;
+    state.settings = payload;
   },
 };
 
@@ -35,7 +29,7 @@ export const actions = {
 
   async setSettings({ commit, state }, prop) {
     try {
-      const res = await axios.post('/api/settings', { ...state.profile.settings, ...prop });
+      const res = await axios.post('/api/settings', { ...state.settings, ...prop });
       commit('UPDATE_SETTINGS', res.data);
     } catch (err) {
       console.debug(err);
